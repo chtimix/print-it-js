@@ -17,7 +17,18 @@ const slides = [
 	}
 ]
 
+// Insertion html des bullets du carrousel
+let dots = document.querySelector(".dots")
+let html ='<div class="dot dot_selected"></div'
+function addDot() {
+	for (let index = 0; index < slides.length; index++ ) {
+		html += '<div class="dot"></div>'
+	}
+	dots.innerHTML = html
+}
+addDot()
 
+// Gestion des événements sur le carrousel 
 const arrowLeft = document.querySelector(".arrow_left")
 const arrowRight = document.querySelector(".arrow_right")
 
@@ -30,4 +41,5 @@ arrowLeft.addEventListener("click", () => {
 
 arrowRight.addEventListener("click", () => {
 	console.log("tu as cliqué sur la flèche droite")
-})
+}) 
+
