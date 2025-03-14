@@ -18,51 +18,68 @@ const slides = [
 ]
 
 // Insertion html des bullets du carrousel
-let dots = document.querySelector(".dots")
-let html ='<div class="dot dot_selected"></div'
-function addDot() {
+const dots = document.querySelector(".dots")
+	let html =""
+	let is_selected
 	for (let index = 0; index < slides.length; index++ ) {
-		html += '<div class="dot"></div>'
+		is_selected = ""
+		if (index==0) is_selected = " dot_selected";
+		html += '<div class="dot '+is_selected+'" data-number="'+index+'"></div>'
+		
 	}
 	dots.innerHTML = html
-}
-addDot()
 
 // Gestion des événements sur le carrousel 
 const arrowLeft = document.querySelector(".arrow_left")
 const arrowRight = document.querySelector(".arrow_right")
 
-let compteur = 0
+let current_index = 0
 
+const bannerImg = document.querySelector(".banner-img")
 
-
-let bannerImg = document.querySelector(".banner-img")
-let bannerTxt = document.querySelector("#banner p")
+const bannerTxt = document.querySelector("#banner p")
 
 arrowLeft.addEventListener("click", () => {
-	let dotSelected = document.querySelector(".dot_selected")
-    let prevDot = dotSelected.previousSibling
 	
-	prevDot.className="dot dot_selected"
-	dotSelected.className = "dot"
+	let prevIndex = current_index -1
+	if(prevIndex < 0) {
+		prevIndex = slides.length - 1
+	}
+	document.querySelector('.dot[data-number="'+prevIndex+'"]').classList.add("dot_selected");
+	document.querySelector('.dot[data-number="'+current_index+'"]').classList.remove("dot_selected");
+	current_index=prevIndex
+	
 
-	bannerImg.src="./assets/images/slideshow/"+ slides[compteur-1].image
-	bannerTxt.innerHTML=slides[compteur-1].tagLine
-	compteur--
-
-
+	bannerImg.src="./assets/images/slideshow/"+ slides[current_index].image
+	bannerTxt.innerHTML=slides[current_index].tagLine
 })
 
-arrowRight.addEventListener("click", () => {
-	let dotSelected = document.querySelector(".dot_selected")
-    let nextDot = dotSelected.nextElementSibling 
-	
-	nextDot.className="dot dot_selected"
-	dotSelected.className = "dot"
 
-	bannerImg.src="./assets/images/slideshow/"+ slides[compteur+1].image
-	bannerTxt.innerHTML=slides[compteur+1].tagLine
-	compteur++
+arrowRight.addEventListener("click", () => {
+	let nextIndex = current_index + 1
+	if(nextIndex > slides.length -1) {
+		nextIndex = 0
+	}
+	document.querySelector('.dot[data-number="'+nextIndex+'"]').classList.add("dot_selected");
+	document.querySelector('.dot[data-number="'+current_index+'"]').classList.remove("dot_selected");
+	current_index=nextIndex
+	
+
+	bannerImg.src="./assets/images/slideshow/"+ slides[current_index].image
+	bannerTxt.innerHTML=slides[current_index].tagLine
+	
+
 }) 
 
-
+let dom_dots = document.querySelectorAll(".dot");
+dom_dots.forEach((dot) => {
+	dot.addEventListener("click", (e) => {
+		let clicked_index = dot.getAttribute("data-number")
+		document.querySelector('.dot[data-number="'+clicked_index+'"]').classList.add("dot_selected");
+		document.querySelector('.dot[data-number="'+current_index+'"]').classList.remove("dot_selected");
+		current_index=clicked_index
+	
+		bannerImg.src="./assets/images/slideshow/"+ slides[current_index].image
+		bannerTxt.innerHTML=slides[current_index].tagLine
+	});
+});
