@@ -32,14 +32,37 @@ addDot()
 const arrowLeft = document.querySelector(".arrow_left")
 const arrowRight = document.querySelector(".arrow_right")
 
-console.log(arrowLeft)
-console.log(arrowRight)
+let compteur = 0
+
+
+
+let bannerImg = document.querySelector(".banner-img")
+let bannerTxt = document.querySelector("#banner p")
 
 arrowLeft.addEventListener("click", () => {
-	console.log("tu as cliqué sur la flèche gauche")
+	let dotSelected = document.querySelector(".dot_selected")
+    let prevDot = dotSelected.previousSibling
+	
+	prevDot.className="dot dot_selected"
+	dotSelected.className = "dot"
+
+	bannerImg.src="./assets/images/slideshow/"+ slides[compteur-1].image
+	bannerTxt.innerHTML=slides[compteur-1].tagLine
+	compteur--
+
+
 })
 
 arrowRight.addEventListener("click", () => {
-	console.log("tu as cliqué sur la flèche droite")
+	let dotSelected = document.querySelector(".dot_selected")
+    let nextDot = dotSelected.nextElementSibling 
+	
+	nextDot.className="dot dot_selected"
+	dotSelected.className = "dot"
+
+	bannerImg.src="./assets/images/slideshow/"+ slides[compteur+1].image
+	bannerTxt.innerHTML=slides[compteur+1].tagLine
+	compteur++
 }) 
+
 
